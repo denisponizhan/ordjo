@@ -1,3 +1,3 @@
 <%@ page language="java" contentType="text/html; charset=UTF=8" pageEncoding="UTF-8" %>
 
-Hello About tiles!
+<p>Hello About tiles!</p>
