@@ -4,46 +4,46 @@
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
-    <!-- Le styles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <c:set var="contextRoot" value="${pageContext.request.contextPath}"/>
 
-    <link href="${contextRoot}/css/bootstrap.css" rel="stylesheet">
-    <link href="${contextRoot}/css/bootstrap-responsive.css" rel="stylesheet">
-    <style>body { padding-top: 50px; }</style>
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <![endif]-->
+    <link href="${contextRoot}/css/bootstrap.min.css" rel="stylesheet">
+    <style>form { margin-bottom: 0; }</style>
+
     <title><tiles:insertAttribute name="title"/></title>
 </head>
 <body>
 
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="/">Ordjo</a>
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li class="active"><a href="${contextRoot}/">Home</a></li>
-              <li><a href="${contextRoot}/about">About</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="${contextRoot}/">Ordjo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarsExample03">
+                <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="${contextRoot}/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="${contextRoot}/about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="${contextRoot}/addstatus">Add Status</a>
+                    </li>
+                </ul>
+                <form>
+                    <a class="btn btn-light" href="#" role="button">Sing Up</a>
+                </form>
+            </div>
         </div>
-      </div>
-    </div>
+    </nav>
 
-    <div class="container">
-      <h1>Starter template</h1>
+    <main class="container">
       <tiles:insertAttribute name="content"/>
-    </div>
+    </main>
 
-    <!-- Le javascript ================================================== -->
-    <script src="${contextRoot}/js/jquery.js"></script>
-    <script src="${contextRoot}/js/bootstrap.js"></script>
+    <script src="${contextRoot}/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
