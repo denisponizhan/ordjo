@@ -20,7 +20,7 @@ import java.util.Calendar;
 public class StatusTest {
 
     @Autowired
-    StatusUpdateDao statusUpdateDao;
+    private StatusUpdateDao statusUpdateDao;
 
     @Test
     public void testSave() {
