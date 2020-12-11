@@ -20,6 +20,8 @@ public class StatusUpdate {
     @Temporal(TemporalType.TIMESTAMP)
     private Date added;
 
+    public StatusUpdate() {}
+
     public StatusUpdate(String text) {
         this.text = text;
     }
@@ -71,5 +73,14 @@ public class StatusUpdate {
     @Override
     public int hashCode() {
         return Objects.hash(id, text, added);
+    }
+
+    @Override
+    public String toString() {
+        return "StatusUpdate{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                ", added=" + added +
+                '}';
     }
 }
