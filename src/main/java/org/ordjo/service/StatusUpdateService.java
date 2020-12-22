@@ -18,4 +18,8 @@ public class StatusUpdateService {
     public StatusUpdate getLatest() {
         return statusUpdateDao.findFirstByOrderByAddedDesc();
     }
+
+    public StatusUpdate findById(Long id) {
+        return statusUpdateDao.findById(id).get();
+    }
 }

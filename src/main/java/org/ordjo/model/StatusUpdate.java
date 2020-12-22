@@ -1,6 +1,7 @@
 package org.ordjo.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ public class StatusUpdate {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Size(min = 5, max = 255, message = "{addstatus.text.size}")
     @Column(name = "text")
     private String text;
 
