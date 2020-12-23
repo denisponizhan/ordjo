@@ -7,7 +7,7 @@
 <div class="row">
     <div class="mb-3">
 
-        <jwp:pagination page="${page}" url="${contextRoot}/viewstatus" size="10"/>
+        <jwp:pagination page="${page}" url="${contextRoot}/viewstatus" size="5"/>
 
         <c:forEach var = "statusUpdate" items = "${page.content}">
             <p><c:out value = "${statusUpdate.text}" /></p>
