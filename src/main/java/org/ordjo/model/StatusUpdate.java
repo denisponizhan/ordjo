@@ -1,5 +1,7 @@
 package org.ordjo.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -20,6 +22,7 @@ public class StatusUpdate {
 
     @Column(name = "added")
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy/MM/dd hh:mm:ss a")
     private Date added;
 
     public StatusUpdate() {}

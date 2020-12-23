@@ -10,7 +10,11 @@
         <jwp:pagination page="${page}" url="${contextRoot}/viewstatus" size="5"/>
 
         <c:forEach var = "statusUpdate" items = "${page.content}">
-            <p><c:out value = "${statusUpdate.text}" /></p>
+            <c:url var = "editLink" value = "/editstatus?id=${statusUpdate.id}" />
+            <c:url var = "deleteLink" value = "/deletestatus?id=${statusUpdate.id}" />
+            <div>${statusUpdate.text}</div>
+            <div>${statusUpdate.added}</div>
+            <div><a href="${editLink}">Edit</a> | <a href="${deleteLink}">Delete</a></div>
         </c:forEach>
     </div>
-</row>
+</div>

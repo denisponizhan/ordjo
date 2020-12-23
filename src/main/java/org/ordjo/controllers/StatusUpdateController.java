@@ -19,6 +19,32 @@ public class StatusUpdateController {
     @Autowired
     private StatusUpdateService statusUpdateService;
 
+    @RequestMapping(value = "/editstatus", method = RequestMethod.GET)
+    ModelAndView editStatus(ModelAndView modelAndView, @RequestParam(name = "id") Long id) {
+        StatusUpdate statusUpdate = statusUpdateService.get(id);
+        modelAndView.getModel().put("statusUpdate", statusUpdate);
+        modelAndView.setViewName("app.editStatus");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/editstatus", method = RequestMethod.POST)
+    ModelAndView editStatus(ModelAndView modelAndView, @Valid StatusUpdate statusUpdate, BindingResult result) {
+        modelAndView.setViewName("app.editStatus");
+        if(!result.hasErrors()) {
+            statusUpdateService.save(statusUpdate);
+            modelAndView.setViewName("redirect:/viewstatus");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/deletestatus", method = RequestMethod.GET)
+    ModelAndView deleteStatus(ModelAndView modelAndView, @RequestParam(name = "id") Long id) {
+
+        statusUpdateService.delete(id);
+        modelAndView.setViewName("redirect:/viewstatus");
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/viewstatus", method = RequestMethod.GET)
     ModelAndView viewStatus(ModelAndView modelAndView, @RequestParam(name = "p", defaultValue = "1") int pageNumber) {
 
@@ -42,16 +68,11 @@ public class StatusUpdateController {
     @RequestMapping(value = "/addstatus", method = RequestMethod.POST)
     ModelAndView addStatus(ModelAndView modelAndView, @Valid StatusUpdate statusUpdate, BindingResult result) {
 
-        //modelAndView.setViewName("app.addStatus");
-
         if (!result.hasErrors()) {
             statusUpdateService.save(statusUpdate);
             modelAndView.getModel().put("statusUpdate", new StatusUpdate());
             modelAndView.setViewName("redirect:/viewstatus");
         }
-
-        //StatusUpdate latestStatusUpdate = statusUpdateService.getLatest();
-        //modelAndView.getModel().put("latestStatusUpdate", latestStatusUpdate);
 
         return modelAndView;
     }

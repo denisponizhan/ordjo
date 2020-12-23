@@ -33,4 +33,13 @@ public class StatusUpdateService {
 
         return statusUpdateDao.findAll(request);
     }
+
+    public void delete(Long id) {
+        StatusUpdate statusUpdate = statusUpdateDao.findById(id).get();
+        statusUpdateDao.delete(statusUpdate);
+    }
+
+    public StatusUpdate get(Long id) {
+        return statusUpdateDao.findById(id).get();
+    }
 }

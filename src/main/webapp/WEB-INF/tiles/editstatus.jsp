@@ -7,14 +7,12 @@
     <div class="mb-3">
       <br/>
       <form:form modelAttribute="statusUpdate">
+          <form:input type="hidden" path="id"/>
+          <form:input type="hidden" path="added"/>
           <form:errors path="text" />
           <form:textarea path="text" name="text" class="form-control" rows="3"></form:textarea>
-          <button type="submit" class="btn btn-primary mb-3">Confirm</button>
+          <button type="submit" class="btn btn-primary mb-3">Save</button>
       </form:form>
-    </div>
-    <div class="mb-3">
-       <p>Status added at <fmt:formatDate pattern="H:mm:s" value="${latestStatusUpdate.added}"/></p>
-       <p><c:out value="${latestStatusUpdate.text}"/></p>
     </div>
 </row>
 
