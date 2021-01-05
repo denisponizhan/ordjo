@@ -1,0 +1,14 @@
+body {
+    background-color: #280e3c;
+}
+
+.login-form {
+    max-width: 500px;
+    background-color: #ffffff;
+    padding: 50px;
+}
+
+.full-height {
+    min-height: 100vh;
+    height: 100%;
+}

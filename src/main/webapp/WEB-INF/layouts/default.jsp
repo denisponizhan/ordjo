@@ -1,22 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF=8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="с" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE HTML>
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <c:set var="contextRoot" value="${pageContext.request.contextPath}"/>
-
     <link href="${contextRoot}/css/bootstrap.min.css" rel="stylesheet">
-    <style>form { margin-bottom: 0; }</style>
-
     <title><tiles:insertAttribute name="title"/></title>
 </head>
 <body>
 
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
-        <div class="container-fluid">
+        <div class="container">
             <a class="navbar-brand" href="${contextRoot}/">Ordjo</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -30,19 +28,35 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="${contextRoot}/about">About</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="${contextRoot}/addstatus">Add Status</a>
-                    </li>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="${contextRoot}/addstatus">Add Status</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="${contextRoot}/viewstatus">View Status</a>
+                        </li>
+                    </sec:authorize>
                 </ul>
-                <form>
-                    <a class="btn btn-light" href="#" role="button">Sing Up</a>
-                </form>
+
+                <sec:authorize access="!isAuthenticated()">
+                    <a class="btn btn-light me-2" href="${contextRoot}/login" role="button">Sing In</a>
+                    <a class="btn btn-light" href="${contextRoot}/register" role="button">Sing Up</a>
+                </sec:authorize>
+
+                <sec:authorize access="isAuthenticated()">
+                    <a class="btn btn-light" href="javascript:document.getElementById('logoutForm').submit();" role="button">Log Out</a>
+                </sec:authorize>
             </div>
         </div>
     </nav>
 
+    <c:url var="logoutLink" value="${contextRoot}/logout" />
+    <form id="logoutForm" method="post" action="${logoutLink}">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    </form>
+
     <main class="container">
-      <tiles:insertAttribute name="content"/>
+        <tiles:insertAttribute name="content"/>
     </main>
 
     <script src="${contextRoot}/js/bootstrap.bundle.min.js"></script>
