@@ -1,11 +1,17 @@
 package org.ordjo.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.ordjo.validation.PasswordMatch;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="user")
+@PasswordMatch(message = "{register.repeatpassword.mismatch}")
 public class User {
     @Id
     @Column(name="id")
@@ -14,10 +20,19 @@ public class User {
     private Long id;
 
     @Column(name = "email", unique = true)
+    @NotBlank(message = "{register.email.invalid}")
+    @Email(message = "{register.email.invalid}")
     private String email;
+
+    @Transient
+    @Size(min = 5, max = 15, message = "{register.password.size}")
+    private String plainPassword;
 
     @Column(name = "password", length = 60)
     private String password;
+
+    @Transient
+    private String repeatPassword;
 
     @Column(name = "role", length = 20)
     private String role;
@@ -52,5 +67,22 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getPlainPassword() {
+        return plainPassword;
+    }
+
+    public void setPlainPassword(String plainPassword) {
+        this.password = new BCryptPasswordEncoder().encode(plainPassword);
+        this.plainPassword = plainPassword;
+    }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
     }
 }

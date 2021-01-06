@@ -24,12 +24,11 @@ public class UserService implements UserDetailsService {
 
     public void register(User user) {
         user.setRole("ROLE_USER");
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.save(user);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
         User user = userDao.findByEmail(email);
 
         if (user == null) {
