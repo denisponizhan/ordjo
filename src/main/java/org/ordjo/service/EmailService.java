@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -24,6 +25,9 @@ public class EmailService {
 
     @Value("${play.mailer.enable}")
     private Boolean enable;
+
+    @Value("${site.url}")
+    private String url;
 
     private void send(MimeMessagePreparator preparator) {
         if (enable) {
@@ -45,10 +49,11 @@ public class EmailService {
         this.templateEngine = templateEngine;
     }
 
-    public void sendVerificationEmail(String emailAddress) {
-
+    @Async
+    public void sendVerificationEmail(String emailAddress, String token) {
         Context context = new Context();
-        context.setVariable("name", "Bob");
+        context.setVariable("token", token);
+        context.setVariable("url", url);
 
         String emailContent = templateEngine.process("verifyemail", context);
 
