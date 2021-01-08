@@ -1,4 +1,4 @@
-package org.ordjo.security;
+package org.ordjo.configuration;
 
 import org.ordjo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

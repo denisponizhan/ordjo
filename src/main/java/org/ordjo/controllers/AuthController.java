@@ -1,6 +1,7 @@
 package org.ordjo.controllers;
 
 import org.ordjo.model.User;
+import org.ordjo.service.EmailService;
 import org.ordjo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,17 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EmailService emailService;
+
     @RequestMapping("/login")
     String login() {
         return "app.login";
+    }
+
+    @RequestMapping("/verifyemail")
+    String verifyEmail() {
+        return "app.verifyemail";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -43,7 +52,8 @@ public class AuthController {
 
         if (!result.hasErrors()) {
             userService.register(user);
-            modelAndView.setViewName("redirect:/login");
+            emailService.sendVerificationEmail(user.getEmail());
+            modelAndView.setViewName("redirect:/verifyemail");
         }
 
         return modelAndView;
