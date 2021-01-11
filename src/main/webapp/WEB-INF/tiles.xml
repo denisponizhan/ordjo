@@ -40,12 +40,12 @@
         <put-attribute name="content" value="/WEB-INF/tiles/register.jsp"/>
     </definition>
 
-    <definition name="app.verifyemail" extends="app.default.template">
-        <put-attribute name="content" value="/WEB-INF/tiles/verifyemail.jsp"/>
-    </definition>
-
     <definition name="app.message" extends="app.default.template">
         <put-attribute name="content" value="/WEB-INF/tiles/message.jsp"/>
+    </definition>
+
+    <definition name="app.exception" extends="app.default.template">
+        <put-attribute name="content" value="/WEB-INF/tiles/exception.jsp"/>
     </definition>
 
 </tiles-definitions>

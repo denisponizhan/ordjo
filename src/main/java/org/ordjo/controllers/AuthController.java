@@ -35,27 +35,32 @@ public class AuthController {
     @Value("${message.invalid.user}")
     private String invalidUserMessage;
 
+    @Value("${message.verify.email}")
+    private String verifyEmailMessage;
+
     @RequestMapping("/login")
     String login() {
         return "app.login";
     }
 
     @RequestMapping("/verifyemail")
-    String verifyEmail() {
-        return "app.verifyemail";
+    ModelAndView verifyEmail(ModelAndView modelAndView) {
+        modelAndView.getModel().put("message", verifyEmailMessage);
+        modelAndView.setViewName("app.message");
+        return modelAndView;
     }
 
     @RequestMapping("/invaliduser")
     ModelAndView invalidUser(ModelAndView modelAndView) {
         modelAndView.getModel().put("message", invalidUserMessage);
-        modelAndView.setViewName("app.message");
+        modelAndView.setViewName("app.exception");
         return modelAndView;
     }
 
     @RequestMapping("/expiredtoken")
     ModelAndView expiredToken(ModelAndView modelAndView) {
         modelAndView.getModel().put("message", expiredTokenMessage);
-        modelAndView.setViewName("app.message");
+        modelAndView.setViewName("app.exception");
         return modelAndView;
     }
 
@@ -97,6 +102,7 @@ public class AuthController {
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     ModelAndView register(ModelAndView modelAndView) {
+
         User user = new User();
         modelAndView.getModel().put("user", user);
         modelAndView.setViewName("app.register");

@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <c:set var="contextRoot" value="${pageContext.request.contextPath}"/>
     <link href="${contextRoot}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextRoot}/css/common.styles.css" rel="stylesheet">
     <title><tiles:insertAttribute name="title"/></title>
 </head>
 <body>

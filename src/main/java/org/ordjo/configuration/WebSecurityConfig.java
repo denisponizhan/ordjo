@@ -29,7 +29,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/register",
                         "/registrationconfirmed",
                         "/expiredtoken",
-                        "/invaliduser")
+                        "/invaliduser",
+                        "/verifyemail",
+                        "/confirmregister"
+                        )
                 .permitAll()
                 .antMatchers(
                         "/js/*",
@@ -43,6 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/deletestatus",
                         "/viewstatus")
                 .hasRole("ADMIN")
+                .anyRequest()
+                .denyAll()
                 .and()
             .formLogin()
                 .loginPage("/login")

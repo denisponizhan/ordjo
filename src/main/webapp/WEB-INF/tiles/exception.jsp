@@ -3,7 +3,7 @@
 
 <div class="row">
     <div class="page inform-page pt-2 pb-2">
-        <div class="alert alert-success" role="alert">
+        <div class="alert alert-danger" role="alert">
             <c:out value="${message}" />
         </div>
     </div>
