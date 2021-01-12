@@ -1,5 +1,7 @@
 package org.ordjo;
 
+import org.owasp.html.HtmlPolicyBuilder;
+import org.owasp.html.PolicyFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -60,6 +62,14 @@ public class App extends SpringBootServletInitializer {
             factory.addErrorPages(new ErrorPage(HttpStatus.FORBIDDEN, "/403"));
             return factory;
         }
+    }
+
+    @Bean
+    PolicyFactory getUserHtmlPolicy() {
+        return new HtmlPolicyBuilder()
+                .allowCommonBlockElements()
+                .allowCommonInlineFormattingElements()
+                .toFactory();
     }
 
 }

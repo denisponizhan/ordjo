@@ -45,7 +45,8 @@
                 </sec:authorize>
 
                 <sec:authorize access="isAuthenticated()">
-                    <a class="btn btn-light" href="javascript:document.getElementById('logoutForm').submit();" role="button">Log Out</a>
+                    <a class="link-light profile-link" href="${contextRoot}/profile">Profile</a>
+                    <a class="btn btn-light ms-3" href="javascript:document.getElementById('logoutForm').submit();" role="button">Log Out</a>
                 </sec:authorize>
             </div>
         </div>
