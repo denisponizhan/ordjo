@@ -5,6 +5,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,25 @@ public class GlobalExceptionHandler {
 
     @Value("${message.error.invalid.user}")
     private String invalidUserMessage;
+
+    //tmp
+    @ExceptionHandler(value = MultipartException.class)
+    @ResponseBody
+    String fileUploadHandler(Exception e) {
+        System.out.println("===================== ************ =====================");
+        System.out.println("===================== ************ =====================");
+        System.out.println("===================== ************ =====================");
+        System.out.println("===================== ************ =====================");
+        System.out.println("===================== ************ =====================");
+        e.printStackTrace();
+        System.out.println("===================== ************ =====================");
+        System.out.println("===================== ************ =====================");
+        System.out.println("===================== ************ =====================");
+        System.out.println("===================== ************ =====================");
+        System.out.println("===================== ************ =====================");
+
+        return "An error occurred while uploading a file";
+    }
 
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) {
