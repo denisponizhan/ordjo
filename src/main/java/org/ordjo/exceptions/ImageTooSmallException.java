@@ -1,5 +1,3 @@
 package org.ordjo.exceptions;
 
-public class ImageTooSmallException extends Exception {
-
-}
+public class ImageTooSmallException extends Exception {}

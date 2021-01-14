@@ -1,3 +1,7 @@
 .profile-link {
     text-decoration: none;
 }
+
+#photoUploadForm {
+    display: none;
+}
