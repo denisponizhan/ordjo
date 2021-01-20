@@ -1,9 +1,6 @@
-body {
-    background-color: #280e3c;
-}
-
 .login-form {
     max-width: 500px;
+    width: 100%;
     background-color: #ffffff;
     padding: 50px;
 }
@@ -11,4 +8,13 @@ body {
 .full-height {
     min-height: 100vh;
     height: 100%;
+}
+
+.auth-brand {
+    display: block;
+    font-size: 55px;
+}
+
+.auth-brand:hover {
+    color: #ffffff;
 }

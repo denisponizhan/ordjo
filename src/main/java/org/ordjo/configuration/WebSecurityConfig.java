@@ -37,7 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/js/*",
                         "/css/*",
-                        "/img/*"
+                        "/img/*",
+                        "/fonts/*"
                 )
                 .permitAll()
                 .antMatchers(
@@ -48,9 +49,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasRole("ADMIN")
                 .antMatchers(
                         "/profile",
+                        "/profile/*",
                         "/edit-profile-text",
                         "/upload-profile-photo",
-                        "/profilephoto")
+                        "/profilephoto/*",
+                        "/save-interest",
+                        "/delete-interest")
                 .authenticated()
                 .anyRequest()
                 .denyAll()

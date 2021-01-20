@@ -4,14 +4,34 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="jwp" tagdir="/WEB-INF/tags" %>
 
-<c:url var="profilePhoto" value="/profilephoto" />
+<c:url var="profilePhoto" value="/profilephoto/${userId}" />
 <c:url var="editProfileText" value="/edit-profile-text" />
+<c:url var="saveInterest" value="/save-interest" />
+<c:url var="deleteInterest" value="/delete-interest" />
 
 <div class="row">
     <div class="page pt-2 pb-2">
+
+        <div id="interestDiv">
+
+            <ul id="interestList">
+                <c:choose>
+                    <c:when test="${empty profile.interests}">
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="interest" items="${profile.interests}">
+                            <li>${interest.name}</li>
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </div>
+
         <div>
             <img id="profilePhotoImage" src="${profilePhoto}" alt="avatar" />
-            <a href="#" id="uploadLink">Upload Photo</a>
+            <c:if test="${ownProfile}">
+                <a href="#" id="uploadLink">Upload Photo</a>
+            </c:if>
         </div>
         <div>
             <c:choose>
@@ -24,7 +44,9 @@
             </c:choose>
         </div>
         <div>
-            <a href="${editProfileText}">Edit</a>
+            <c:if test="${ownProfile}">
+                <a href="${editProfileText}">Edit</a>
+            </c:if>
         </div>
         <div>
             <c:url value="/upload-profile-photo" var="uploadPhotoLink"/>
@@ -59,6 +81,34 @@
         });
     }
 
+    function editInterest(text, actionUrl) {
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+
+        $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
+            jqXHR.setRequestHeader(header, token);
+        });
+
+        $.ajax({
+            url: actionUrl,
+            data: {
+                name: text
+            },
+            type: 'POST',
+            success: function() {
+                console.log("ok");
+            }
+        });
+    }
+
+    function saveInterest(text) {
+        editInterest(text, "${saveInterest}");
+    }
+
+    function deleteInterest(text) {
+        editInterest(text, "${deleteInterest}");
+    }
+
     $(document).ready(function() {
         $("#uploadLink").click(function(e) {
             e.preventDefault();
@@ -70,6 +120,21 @@
         });
 
         $("#photoUploadForm").on('submit', uploadPhoto);
+
+        $("#interestList").tagit({
+            caseSensitive: false,
+            allowSpaces: true,
+            tagLimit: 10,
+            readOnly: ${!ownProfile},
+            afterTagRemoved: function(e, ui) {
+                deleteInterest(ui.tagLabel);
+            },
+            afterTagAdded: function(e, ui) {
+                if (!ui.duringInitialization) {
+                    saveInterest(ui.tagLabel);
+                }
+            }
+        });
     });
 
 </script>

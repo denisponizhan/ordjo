@@ -7,8 +7,13 @@
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="_csrf" content="${_csrf.token}">
+    <meta name="_csrf_header" content="${_csrf.headerName}">
+
     <c:set var="contextRoot" value="${pageContext.request.contextPath}"/>
     <link href="${contextRoot}/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextRoot}/css/jquery.tagit.css" rel="stylesheet">
     <link href="${contextRoot}/css/common.styles.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
 
@@ -16,9 +21,9 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Third navbar example">
+    <nav class="navbar navbar-expand-sm navbar-dark bg-ordjo" aria-label="Third navbar example">
         <div class="container">
-            <a class="navbar-brand" href="${contextRoot}/">Ordjo</a>
+            <a class="navbar-brand ordjo-brand" href="${contextRoot}/">Ordjo</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample03" aria-controls="navbarsExample03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -42,13 +47,13 @@
                 </ul>
 
                 <sec:authorize access="!isAuthenticated()">
-                    <a class="btn btn-light me-2" href="${contextRoot}/login" role="button">Sing In</a>
-                    <a class="btn btn-light" href="${contextRoot}/register" role="button">Sing Up</a>
+                    <a class="btn btn-primary me-2" href="${contextRoot}/login" role="button">Sing In</a>
+                    <a class="btn btn-primary" href="${contextRoot}/register" role="button">Sing Up</a>
                 </sec:authorize>
 
                 <sec:authorize access="isAuthenticated()">
                     <a class="link-light profile-link" href="${contextRoot}/profile">Profile</a>
-                    <a class="btn btn-light ms-3" href="javascript:document.getElementById('logoutForm').submit();" role="button">Log Out</a>
+                    <a class="btn btn-primary ms-3" href="javascript:document.getElementById('logoutForm').submit();" role="button">Log Out</a>
                 </sec:authorize>
             </div>
         </div>
@@ -64,5 +69,7 @@
     </main>
 
     <script src="${contextRoot}/js/bootstrap.bundle.min.js"></script>
+    <script src="${contextRoot}/js/jquery-ui.min.js"></script>
+    <script src="${contextRoot}/js/tag-it.min.js"></script>
 </body>
 </html>

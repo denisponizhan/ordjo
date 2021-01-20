@@ -7,27 +7,30 @@
 <c:set var="contextRoot" value="${pageContext.request.contextPath}"/>
 
 <div class="full-height row justify-content-center align-items-center">
-    <form:form class="login-form rounded" method="post" modelAttribute="user">
-        <form:errors path="*" class="alert alert-danger" role="alert" element="div"/>
-        <div class="form-floating mb-3">
-            <form:input type="text" path="email" class="form-control" id="floatingInput" placeholder="Email"/>
-            <label for="floatingInput">Email</label>
-        </div>
-        <div class="form-floating mb-3">
-            <form:input type="password" path="plainPassword" class="form-control" id="floatingPassword" placeholder="Password"/>
-            <label for="floatingPassword">Password</label>
-        </div>
-        <div class="form-floating mb-3">
-            <form:input type="password" path="repeatPassword" class="form-control" id="floatingRepeatPassword" placeholder="Repeat Password"/>
-            <label for="floatingPassword">Repeat Password</label>
-        </div>
-        <div class="row">
-            <div class="col-auto me-auto">
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+    <div class="col-xs-12 col-sm-10 col-md-6 d-flex align-items-center flex-column">
+        <a class="ordjo-brand auth-brand mb-3" href="${contextRoot}">Ordjo</a>
+        <form:form class="login-form rounded" method="post" modelAttribute="user">
+            <form:errors path="*" class="alert alert-danger" role="alert" element="div"/>
+            <div class="form-floating mb-3">
+                <form:input type="text" path="email" class="form-control" id="floatingInput" placeholder="Email"/>
+                <label for="floatingInput">Email</label>
             </div>
-            <div class="col-auto">
-                <a class="btn btn-light" href="${contextRoot}/login" role="button">Already have an account?</a>
+            <div class="form-floating mb-3">
+                <form:input type="password" path="plainPassword" class="form-control" id="floatingPassword" placeholder="Password"/>
+                <label for="floatingPassword">Password</label>
             </div>
-        </div>
-    </form:form>
+            <div class="form-floating mb-3">
+                <form:input type="password" path="repeatPassword" class="form-control" id="floatingRepeatPassword" placeholder="Repeat Password"/>
+                <label for="floatingPassword">Repeat Password</label>
+            </div>
+            <div class="row">
+                <div class="col-auto me-auto">
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                </div>
+                <div class="col-auto">
+                    <a class="btn btn-light" href="${contextRoot}/login" role="button">Already have an account?</a>
+                </div>
+            </div>
+        </form:form>
+    </div>
 </div>

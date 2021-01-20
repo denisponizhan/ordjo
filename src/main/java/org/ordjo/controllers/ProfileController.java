@@ -3,9 +3,11 @@ package org.ordjo.controllers;
 import org.ordjo.exceptions.ImageTooSmallException;
 import org.ordjo.exceptions.InvalidFileException;
 import org.ordjo.model.FileInfo;
+import org.ordjo.model.Interest;
 import org.ordjo.model.Profile;
 import org.ordjo.model.User;
 import org.ordjo.service.FileService;
+import org.ordjo.service.InterestService;
 import org.ordjo.service.ProfileService;
 import org.ordjo.service.UserService;
 import org.ordjo.status.PhotoUploadStatus;
@@ -20,10 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -50,6 +49,9 @@ public class ProfileController {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private InterestService interestService;
+
     @Value("${photo.upload.directory}")
     private String photoUploadDirectory;
 
@@ -71,10 +73,14 @@ public class ProfileController {
         return userService.get(email);
     }
 
-    @RequestMapping("/profile")
-    public ModelAndView showProfile(ModelAndView modelAndView) {
+    private ModelAndView showProfile(User user) {
+        ModelAndView modelAndView = new ModelAndView();
 
-        User user = getUser();
+        if (user == null) {
+            modelAndView.setViewName("redirect:/");
+            return modelAndView;
+        }
+
         Profile profile = profileService.getUserProfile(user);
 
         if (profile == null) {
@@ -87,8 +93,25 @@ public class ProfileController {
         webProfile.safeCopyFrom(profile);
 
         modelAndView.getModel().put("profile", webProfile);
-
+        modelAndView.getModel().put("userId", user.getId());
         modelAndView.setViewName("app.profile");
+        return modelAndView;
+    }
+
+    @RequestMapping("/profile")
+    public ModelAndView showProfile() {
+        User user = getUser();
+        ModelAndView modelAndView = showProfile(user);
+        modelAndView.getModel().put("ownProfile", true);
+        return modelAndView;
+    }
+
+    @RequestMapping("/profile/{id}")
+    public ModelAndView showProfile(@PathVariable("id") Long id) {
+        User user = userService.get(id);
+        ModelAndView modelAndView = showProfile(user);
+
+        modelAndView.getModel().put("ownProfile", false);
         return modelAndView;
     }
 
@@ -163,10 +186,12 @@ public class ProfileController {
         return new ResponseEntity(status, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/profilephoto", method = RequestMethod.GET)
+    @RequestMapping(value = "/profilephoto/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<InputStreamResource> servePhoto() throws IOException {
-        User user = getUser();
+    public ResponseEntity<InputStreamResource> servePhoto(
+            @PathVariable("id") Long id
+    ) throws IOException {
+        User user = userService.get(id);
         Profile profile = profileService.getUserProfile(user);
 
         Path photoPath = Paths.get(photoUploadDirectory, "default", "avatar.jpg");
@@ -180,5 +205,35 @@ public class ProfileController {
                 .contentLength(Files.size(photoPath))
                 .contentType(MediaType.parseMediaType(URLConnection.guessContentTypeFromName(photoPath.toString())))
                 .body(new InputStreamResource(Files.newInputStream(photoPath, StandardOpenOption.READ)));
+    }
+
+    @RequestMapping(value = "/save-interest", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> saveInterest(
+            @RequestParam("name") String interestName
+    ) {
+        User user = getUser();
+        Profile profile = profileService.getUserProfile(user);
+
+        String cleanedInterestName = htmlPolicy.sanitize(interestName);
+        Interest interest = interestService.createIfNotExist(cleanedInterestName);
+        profile.addInterest(interest);
+        profileService.save(profile);
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/delete-interest", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> deleteInterest(
+            @RequestParam("name") String interestName
+    ) {
+        User user = getUser();
+        Profile profile = profileService.getUserProfile(user);
+
+        profile.removeInterest(interestName);
+        profileService.save(profile);
+
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 }

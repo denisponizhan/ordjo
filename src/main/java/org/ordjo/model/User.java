@@ -40,6 +40,16 @@ public class User {
     @Column(name = "role", length = 20)
     private String role;
 
+    public User() {}
+
+    public User(String email, String password) {
+        this.email = email;
+        this.plainPassword = password;
+        this.repeatPassword = password;
+        this.enabled = true;
+    }
+
+
     public Long getId() {
         return id;
     }

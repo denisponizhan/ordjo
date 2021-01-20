@@ -1,6 +1,5 @@
 package org.ordjo.model;
 
-import org.checkerframework.checker.units.qual.C;
 import org.hibernate.annotations.GenericGenerator;
 import org.owasp.html.PolicyFactory;
 
@@ -8,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Set;
 
 @Entity
 @Table(name = "profile")
@@ -36,6 +36,20 @@ public class Profile {
     @Column(name = "photo_extension", length = 5)
     private String photoExtension;
 
+    @ManyToMany
+    @JoinTable(
+            name = "profile_interests",
+            joinColumns = { @JoinColumn(name = "profile_id") },
+            inverseJoinColumns = { @JoinColumn(name = "interest_id") })
+    @OrderColumn(name = "display_order")
+    private Set<Interest> interests;
+
+    public Profile() {}
+
+    public Profile(User user) {
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }
@@ -60,13 +74,22 @@ public class Profile {
         this.about = about;
     }
 
-    //wtf?
+    /*
+    * Create a profile that is suitable for displaying.
+    * */
     public void safeCopyFrom(Profile other) {
         if (other.about != null) {
             this.about = other.about;
         }
+
+        if (other.interests != null) {
+            this.interests = other.interests;
+        }
     }
 
+    /*
+    * Create a profile that is suitable for saving.
+     */
     public void safeMergeFrom(Profile webProfile, PolicyFactory htmlPolicy) {
         if (webProfile.about != null) {
             this.about = htmlPolicy.sanitize(webProfile.about);
@@ -108,5 +131,21 @@ public class Profile {
             return null;
         }
         return Paths.get(baseDirectory, photoDirectory, photoName + "." + photoExtension);
+    }
+
+    public Set<Interest> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(Set<Interest> interests) {
+        this.interests = interests;
+    }
+
+    public void addInterest(Interest interest) {
+        interests.add(interest);
+    }
+
+    public void removeInterest(String interestName) {
+        interests.remove(new Interest(interestName));
     }
 }

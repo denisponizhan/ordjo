@@ -1,5 +1,52 @@
-.profile-link {
+@font-face {
+  font-family: Damion;
+  src: url(/fonts/Damion-Regular.ttf);
+}
+
+@font-face {
+  font-family: RobotoRegular;
+  src: url(/fonts/Roboto-Regular.ttf);
+  font-weight: 400;
+}
+
+body {
+  font-family: RobotoRegular;
+}
+
+a {
     text-decoration: none;
+}
+
+ul.tagit li.tagit-choice .tagit-close .text-icon {
+    display: block;
+}
+
+div.ui-helper-hidden-accessible {
+    display:none;
+}
+
+.btn-primary {
+    background-color: rgb(201 116 251);
+    border-color: rgb(201 116 251);
+}
+
+.btn-primary:hover {
+    background-color: rgb(201 116 251);
+    border-color: rgb(201 116 251);
+}
+
+.bg-ordjo {
+    background-image: linear-gradient(to left, rgb(33, 147, 176), rgb(109, 213, 224));
+}
+
+.ordjo-brand {
+    font-family: Damion;
+    color: #ffffff;
+}
+
+.navbar-brand {
+    font-size: 30px;
+    padding: 0;
 }
 
 #photoUploadForm {
